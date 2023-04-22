@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.Random;
 
 // A class used for modelling the game grid
 public class GameGrid {
@@ -9,13 +8,7 @@ public class GameGrid {
    // the tetromino that is currently being moved on the game grid
    private Tetromino currentTetromino = null;
    private static Tetromino nextTetromino = null;
-
-   private char [] type = { 'I', 'O', 'Z','L','J','S','T' };
    private int points = 0;
-   private Point bottomLeftCell = new Point();
-   private Point minBoundedTileMatrixPosition = new Point();
-
-
 
    // the gameOver flag shows whether the game is over or not
    private boolean gameOver = false;
@@ -27,8 +20,6 @@ public class GameGrid {
 
 
    public Tile[][] tileUpdate;
-   public boolean isMerged = true;
-
 
    // A constructor for creating the game grid based on the given parameters
    public GameGrid(int gridH, int gridW) {
@@ -132,14 +123,6 @@ public class GameGrid {
 
    }
 
-   //Check that points are showing
-   public void drawScore() {
-      System.out.println("Score: " + points);
-   }
-
-   // a function to show points
-
-
    public void fall() {
       boolean save = true;
 
@@ -200,10 +183,6 @@ public class GameGrid {
       }
    }
 
-
-
-
-
    private void fixColumn(int col, int row) {
       for (int i = row; i < gridHeight - 1; i++) {
          tileMatrix[i][col] = tileMatrix[i + 1][col];
@@ -234,24 +213,6 @@ public class GameGrid {
 
    }
 
-
-   // A method used for displaying the game grid
-   public void showPointOnGrid(){
-      Font font = new Font("Arial", Font.BOLD, 40);
-      StdDraw.setFont(font);
-      StdDraw.setPenColor(Color.WHITE); // Set the pen color to white
-      StdDraw.text(13, 17, "SCORE");
-      StdDraw.text(13, 15, ""+get_points());
-      // Add the code to display the future Tetromino
-      StdDraw.text(13, 7, "NEXT:");
-
-
-
-   }
-
-
-   // A method for drawing the cells and the lines of the game grid
-
    // A method for drawing the cells and the lines of the game grid
    public void drawGrid() {
       // for each cell of the game grid
@@ -273,7 +234,6 @@ public class GameGrid {
       StdDraw.setPenRadius(); // reset the pen radius to its default value
    }
 
-
    // A method for drawing the boundaries around the game grid
    public void drawBoundaries() {
       // draw a bounding box around the game grid as a rectangle
@@ -291,8 +251,6 @@ public class GameGrid {
    // A method for checking whether the grid cell with given row and column
    // indexes is occupied by a tile or empty
    public boolean isOccupied(int row, int col) {
-      // considering newly entered tetrominoes to the game grid that may have
-      // tiles out of the game grid (above the topmost grid row)
       if (!isInside(row, col))
          return false;
       // the cell is occupied by a tile if it is not null
