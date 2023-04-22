@@ -18,13 +18,15 @@ public class Tetris2048 {
       Tetromino.gridHeight = gridH;
       Tetromino.gridWidth = gridW;
 
+   while (true) {
       // create the game grid
       GameGrid grid = new GameGrid(gridH, gridW);
       StdDraw.filledRectangle(90, 50, 10, 50);
       displayGameMenu(gridH, gridW);
       game(grid);
       System.out.println("Game Over");
-
+      displayGameOverPopup(gridH, gridW);
+      }
    }
 
    public static void game(GameGrid grid) throws CloneNotSupportedException{
@@ -36,7 +38,8 @@ public class Tetris2048 {
       // the main game loop (using some keyboard keys for moving the tetromino)
       // -----------------------------------------------------------------------
       int iterationCount = 0; // used for the speed of the game
-      while (true) {
+      boolean gameOver = false;
+      while (!gameOver) {
          // check user interactions via the keyboard
          // --------------------------------------------------------------------
          // if the left arrow key is being pressed
@@ -54,6 +57,11 @@ public class Tetris2048 {
          else if (StdDraw.isKeyPressed(KeyEvent.VK_SPACE))
             if(currentTetromino.canBeRotated(grid))
                currentTetromino.rotate();
+         if (StdDraw.isKeyPressed(KeyEvent.VK_0)){
+            gameOver = true;
+            displayGameOverPopup(Tetromino.gridHeight, Tetromino.gridWidth);
+            }
+
 
          // move the active tetromino down by 1 once in 10 iterations (auto fall)
          boolean success = true;
@@ -68,11 +76,13 @@ public class Tetris2048 {
             Tile[][] tiles = currentTetromino.getMinBoundedTileMatrix();
             Point pos = currentTetromino.getMinBoundedTileMatrixPosition();
             // update the game grid by locking the tiles of the landed tetromino
-            boolean gameOver = grid.updateGrid(tiles, pos);
+            gameOver = grid.updateGrid(tiles, pos);
 
             // end the main game loop if the game is over
-            if (gameOver)
+            if (gameOver){
+               displayGameOverPopup(Tetromino.gridHeight, Tetromino.gridWidth);
                break;
+            }
             // create the next tetromino to enter the game grid
             // by using the createTetromino function defined below
             currentTetromino = nextTetromino;
@@ -88,6 +98,53 @@ public class Tetris2048 {
          grid.merge();
          grid.clearLines();
          grid.display();
+
+      }
+
+   }
+
+   // A method for displaying the game over popup
+   public static void displayGameOverPopup(int gridHeight, int gridWidth) {
+      Color backgroundColor = new Color(171, 187, 120, 180);
+      Color popupColor = new Color(255, 251, 167);
+      Color textColor = new Color(76, 100, 55);
+
+      double popupWidth = gridWidth / 2.0;
+      double popupHeight = gridHeight / 4.0;
+      double popupCenterX = gridWidth / 2.0;
+      double popupCenterY = gridHeight / 2.0;
+
+      // Draw semi-transparent background
+      StdDraw.setPenColor(backgroundColor);
+      StdDraw.filledRectangle(gridWidth / 2.0, gridHeight / 2.0, gridWidth / 2.0, gridHeight / 2.0);
+
+      // Draw popup box
+      StdDraw.setPenColor(popupColor);
+      StdDraw.filledRectangle(popupCenterX, popupCenterY, popupWidth / 2, popupHeight / 2);
+      StdDraw.setPenColor(textColor);
+      StdDraw.rectangle(popupCenterX, popupCenterY, popupWidth / 2, popupHeight / 2);
+
+      // Draw text
+      Font font = new Font("Arial", Font.BOLD, 25);
+      StdDraw.setFont(font);
+      StdDraw.text(popupCenterX, popupCenterY + popupHeight / 6, "Game Over");
+      font = new Font("Arial", Font.PLAIN, 18);
+      StdDraw.setFont(font);
+      StdDraw.text(popupCenterX, popupCenterY - popupHeight / 6, "Press R to restart or Q to quit");
+
+      // Wait for user input
+      while (true) {
+         // If R key is pressed
+         if (StdDraw.isKeyPressed(KeyEvent.VK_R)) {
+            StdDraw.pause(200); // To prevent holding key from triggering multiple restarts
+            return; // Return control to the main loop to restart the game
+         }
+         // If Q key is pressed
+         if (StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
+            System.exit(0);
+         }
+         StdDraw.show();
+         StdDraw.pause(50);
       }
 
    }
@@ -154,5 +211,8 @@ public class Tetris2048 {
       }
    }
 
+   public static void playGame(GameGrid grid) throws CloneNotSupportedException {
+      // Move the code from the main() method and game() method into this method
+   }
 
 }
