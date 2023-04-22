@@ -84,46 +84,47 @@ public class GameGrid {
       StdDraw.text(13, 17, "SCORE");
       StdDraw.text(13, 15, ""+get_points());
       // Add the code to display the future Tetromino
+
       StdDraw.text(13, 7, "NEXT:");
 
       Tetromino copyNext = this.nextTetromino.clone();
       if(copyNext.getType() == 'I'){
          double width = this.gridWidth-3;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
       }
       else if(copyNext.getType() == 'O' ){
          double width =this.gridWidth- 3.5;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
       }
       else if(copyNext.getType() == 'J' || copyNext.getType() == 'L' ){
          double width =this.gridWidth- 3.5;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
       }
 
       else if(copyNext.getType() == 'S' ){
          double width =this.gridWidth- 4;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
 
       }
       else if(copyNext.getType() == 'T' ){
          double width =this.gridWidth- 4;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
       }
 
       else{
          double width = this.gridWidth-4;
          copyNext.bottomLeftCell.setX((int) width);
-         int height = this.gridHeight-17;
+         int height = 2;
          copyNext.bottomLeftCell.setY(height);
 
       }
